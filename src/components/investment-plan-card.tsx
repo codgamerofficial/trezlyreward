@@ -27,7 +27,7 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
     // For now, we simulate this.
     
     const options = {
-      key: 'YOUR_RAZORPAY_KEY_ID', // Enter the Key ID generated from the Dashboard
+      key: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY, // Enter the Key ID generated from the Dashboard
       amount: investment * 100, // Amount is in currency subunits. Default currency is INR.
       currency: "INR",
       name: "Treazly Inc.",
@@ -68,6 +68,15 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
       toast({
         title: 'Razorpay not loaded',
         description: 'Please check your internet connection and try again.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    if (!process.env.NEXT_PUBLIC_RAZORPAY_API_KEY) {
+      toast({
+        title: 'Razorpay Key not configured',
+        description: 'The Razorpay API key is missing.',
         variant: 'destructive',
       });
       return;
