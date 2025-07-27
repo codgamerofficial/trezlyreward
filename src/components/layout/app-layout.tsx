@@ -16,6 +16,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarInset,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
@@ -127,7 +128,8 @@ export function AppLayout({children}: {children: ReactNode}) {
       <SidebarInset>
         <header className="flex items-center justify-between p-4 border-b sticky top-0 bg-background/80 backdrop-blur-sm z-10">
            <div className="flex items-center gap-4">
-             <h2 className="text-2xl font-headline font-bold text-primary lg:hidden">
+            <SidebarTrigger className="md:hidden" />
+             <h2 className="text-2xl font-headline font-bold text-primary hidden sm:block">
               {currentPage.label}
             </h2>
             <nav className="hidden lg:flex items-center gap-4 text-sm font-medium">
