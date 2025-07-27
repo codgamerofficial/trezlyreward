@@ -93,8 +93,8 @@ export default function DashboardPage() {
 
   if (!investment) {
     return (
-      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-        <Card className="max-w-md">
+      <div className="flex flex-col items-center justify-center h-[60vh] text-center p-4">
+        <Card className="max-w-md w-full">
           <CardHeader>
             <CardTitle className="text-2xl font-headline text-primary">No Active Investment</CardTitle>
             <CardDescription>You haven't invested in any plan yet. Explore our plans to start earning.</CardDescription>
@@ -112,45 +112,45 @@ export default function DashboardPage() {
   const progressPercentage = (daysPassed / investment.duration) * 100;
   
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-4xl font-bold font-headline text-primary">Your Investment Dashboard</h1>
-        <p className="mt-2 text-lg text-muted-foreground">
+        <h1 className="text-3xl sm:text-4xl font-bold font-headline text-primary">Your Investment Dashboard</h1>
+        <p className="mt-2 text-md sm:text-lg text-muted-foreground">
           Track your earnings and see your investment grow.
         </p>
       </div>
       
       <Card className="bg-card/50">
         <CardHeader>
-          <CardTitle>Current Plan: <span style={{ color: investment.color }}>{investment.name}</span></CardTitle>
+          <CardTitle className="text-xl sm:text-2xl">Current Plan: <span style={{ color: investment.color }}>{investment.name}</span></CardTitle>
           <CardDescription>
             Invested ₹{investment.investment.toLocaleString()} on {format(new Date(investment.purchaseDate), 'PPP')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Total Earned</CardTitle>
+              <CardHeader className="p-4">
+                <CardTitle className="text-lg">Total Earned</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
+              <CardContent className="p-4 pt-0">
+                <p className="text-3xl sm:text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Projected Return</CardTitle>
+              <CardHeader className="p-4">
+                <CardTitle className="text-lg">Projected Return</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
+              <CardContent className="p-4 pt-0">
+                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
               </CardContent>
             </Card>
              <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Daily Income</CardTitle>
+              <CardHeader className="p-4">
+                <CardTitle className="text-lg">Daily Income</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
+              <CardContent className="p-4 pt-0">
+                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
               </CardContent>
             </Card>
           </div>
@@ -218,8 +218,8 @@ export default function DashboardPage() {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <XAxis dataKey="name" tick={{fontSize: 12}} />
+              <YAxis tick={{fontSize: 12}} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'hsl(var(--background))',
