@@ -131,9 +131,9 @@ export function AppLayout({children}: {children: ReactNode}) {
         <header className="flex items-center justify-between p-4 border-b sticky top-0 bg-background/80 backdrop-blur-sm z-10">
            <div className="flex items-center gap-4">
             {isClient && <SidebarTrigger className="md:hidden" />}
-             <h2 className="text-2xl font-headline font-bold text-primary hidden sm:block">
+             {isClient && <h2 className="text-2xl font-headline font-bold text-primary hidden sm:block">
               {currentPage.label}
-            </h2>
+            </h2>}
             <nav className="hidden lg:flex items-center gap-4 text-sm font-medium">
               {menuItems.map((item) => (
                 <Link
