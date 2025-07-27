@@ -1,3 +1,4 @@
+
 'use client';
 
 import type {ReactNode} from 'react';
@@ -22,6 +23,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase-client';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 
 const menuItems = [
@@ -123,9 +125,25 @@ export function AppLayout({children}: {children: ReactNode}) {
       </Sidebar>
       <SidebarInset>
         <header className="flex items-center justify-between p-4 border-b sticky top-0 bg-background/80 backdrop-blur-sm z-10">
-          <h2 className="text-2xl font-headline font-bold text-primary">
-            {currentPage.label}
-          </h2>
+           <div className="flex items-center gap-4">
+             <h2 className="text-2xl font-headline font-bold text-primary lg:hidden">
+              {currentPage.label}
+            </h2>
+            <nav className="hidden lg:flex items-center gap-4 text-sm font-medium">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "transition-colors hover:text-primary",
+                    pathname === item.href ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+           </div>
           <div className="flex items-center gap-4">
             {user ? (
                <Button onClick={handleLogout}>
