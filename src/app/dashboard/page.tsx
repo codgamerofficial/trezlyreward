@@ -10,6 +10,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { differenceInDays, addDays, format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 type InvestmentPlan = {
   id: string;
@@ -33,6 +36,7 @@ export default function DashboardPage() {
   const [chartData, setChartData] = useState<any[]>([]);
   const { toast } = useToast();
   const router = useRouter();
+  const [upiId, setUpiId] = useState('');
 
   useEffect(() => {
     const storedInvestment = localStorage.getItem('userInvestment');
@@ -64,15 +68,23 @@ export default function DashboardPage() {
   }, []);
 
   const handleWithdraw = () => {
+    if (!upiId) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please enter your UPI ID or bank details.',
+        variant: 'destructive',
+      });
+      return;
+    }
     // In a real app, this would trigger a payout process.
     toast({
       title: 'Withdrawal Initiated',
-      description: `Your earnings of ₹${earnings.toLocaleString()} will be processed.`,
+      description: `Your earnings of ₹${earnings.toLocaleString()} will be processed to ${upiId}.`,
     });
     localStorage.removeItem('userInvestment');
     setInvestment(null);
     router.push('/invest');
-  }
+  };
 
   if (!investment) {
     return (
@@ -150,13 +162,47 @@ export default function DashboardPage() {
             </div>
           </div>
         </CardContent>
-        {isPlanComplete && (
-           <CardFooter>
-             <Button onClick={handleWithdraw} className="w-full" size="lg">
-                Withdraw Earnings
+        <CardFooter>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="w-full" size="lg" disabled={earnings <= 0}>
+                {isPlanComplete ? 'Withdraw Full Amount' : 'Take Out Earnings'}
               </Button>
-           </CardFooter>
-        )}
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Withdraw Earnings</DialogTitle>
+                <DialogDescription>
+                  Enter your bank account or UPI details to withdraw your earnings of ₹{earnings.toLocaleString()}.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="upi" className="text-right">
+                    UPI / Bank
+                  </Label>
+                  <Input
+                    id="upi"
+                    value={upiId}
+                    onChange={(e) => setUpiId(e.target.value)}
+                    placeholder="yourname@upi"
+                    className="col-span-3"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button type="submit" onClick={handleWithdraw}>
+                  Initiate Withdrawal
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </CardFooter>
       </Card>
 
       <Card>
