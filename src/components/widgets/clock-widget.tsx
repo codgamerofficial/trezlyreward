@@ -15,7 +15,7 @@ export function ClockWidget() {
   }, []);
 
   return (
-    <Card className="col-span-1 md:col-span-2">
+    <Card className="col-span-1 md:col-span-2 animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
       <CardHeader>
         <CardTitle>Current Time</CardTitle>
       </CardHeader>

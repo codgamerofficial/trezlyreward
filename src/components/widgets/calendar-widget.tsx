@@ -12,7 +12,7 @@ export function CalendarWidget() {
   }, []);
 
   return (
-    <Card className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 flex flex-col">
+    <Card className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 flex flex-col animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
       <CardContent className="p-0 flex items-center justify-center flex-grow">
         <Calendar
           mode="single"

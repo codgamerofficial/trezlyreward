@@ -30,7 +30,7 @@ export function WeatherWidget() {
   }
 
   return (
-    <Card className="col-span-1 md:col-span-2">
+    <Card className="col-span-1 md:col-span-2 animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Weather</CardTitle>
         <Select defaultValue="Mumbai" onValueChange={handleCityChange}>
