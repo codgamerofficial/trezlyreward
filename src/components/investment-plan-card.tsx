@@ -1,7 +1,12 @@
+'use client';
+
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Button} from './ui/button';
+import {useToast} from '@/hooks/use-toast';
+import {useRouter} from 'next/navigation';
 
-type InvestmentPlanCardProps = {
+type InvestmentPlan = {
+  id: string;
   name: string;
   investment: number;
   dailyIncome: number;
@@ -10,14 +15,26 @@ type InvestmentPlanCardProps = {
   color: string;
 };
 
-export function InvestmentPlanCard({
-  name,
-  investment,
-  dailyIncome,
-  duration,
-  totalReturn,
-  color,
-}: InvestmentPlanCardProps) {
+export function InvestmentPlanCard(plan: InvestmentPlan) {
+  const { name, investment, dailyIncome, duration, totalReturn, color } = plan;
+  const {toast} = useToast();
+  const router = useRouter();
+
+  const handleInvest = () => {
+    // In a real app, this would involve a payment gateway.
+    // Here we'll simulate the investment and store it in localStorage.
+    const investmentData = {
+      ...plan,
+      purchaseDate: new Date().toISOString(),
+    };
+    localStorage.setItem('userInvestment', JSON.stringify(investmentData));
+    toast({
+      title: 'Investment Successful!',
+      description: `You have invested in the ${name}.`,
+    });
+    router.push('/dashboard');
+  };
+
   return (
     <Card className="group overflow-hidden border-2 transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300" style={{'--plan-color': color, borderColor: 'var(--plan-color)', boxShadow: `0 0 20px -5px var(--plan-color)`} as React.CSSProperties}>
       <CardHeader className="p-4" style={{ background: `linear-gradient(135deg, oklch(from var(--plan-color) l c h / 0.2), oklch(from var(--plan-color) l c h / 0.05))`}}>
@@ -44,7 +61,7 @@ export function InvestmentPlanCard({
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" style={{backgroundColor: 'var(--plan-color)', color: 'black'}}>Invest Now</Button>
+        <Button className="w-full" style={{backgroundColor: 'var(--plan-color)', color: 'black'}} onClick={handleInvest}>Invest Now</Button>
       </CardFooter>
     </Card>
   );
