@@ -97,9 +97,9 @@ export default function HomePage() {
             <WeatherWidget />
             <NewsWidget />
             <CalculatorWidget />
+            <CalendarWidget />
         </div>
         <div className="lg:col-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-            <CalendarWidget />
             <MapWidget />
         </div>
       </div>
