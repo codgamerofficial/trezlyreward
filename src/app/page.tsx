@@ -1,12 +1,16 @@
-import {NftCard} from '@/components/nft-card';
+
+'use client';
+
+import { NftCard } from '@/components/nft-card';
 import { CalculatorWidget } from '@/components/widgets/calculator-widget';
 import { CalendarWidget } from '@/components/widgets/calendar-widget';
 import { ClockWidget } from '@/components/widgets/clock-widget';
 import { MapWidget } from '@/components/widgets/map-widget';
 import { NewsWidget } from '@/components/widgets/news-widget';
 import { WeatherWidget } from '@/components/widgets/weather-widget';
+import { useEffect, useState } from 'react';
 
-const trendingNfts = [
+const initialTrendingNfts = [
   {
     id: '1',
     name: 'Cybernetic Oracle',
@@ -74,6 +78,17 @@ const trendingNfts = [
 ];
 
 export default function HomePage() {
+  const [trendingNfts, setTrendingNfts] = useState(initialTrendingNfts);
+
+  useEffect(() => {
+    const storedNfts = localStorage.getItem('trendingNfts');
+    if (storedNfts) {
+      setTrendingNfts(JSON.parse(storedNfts));
+    } else {
+      localStorage.setItem('trendingNfts', JSON.stringify(initialTrendingNfts));
+    }
+  }, []);
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -88,10 +103,13 @@ export default function HomePage() {
             <MapWidget />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {trendingNfts.map((nft, index) => (
-          <NftCard key={nft.id} {...nft} priority={index < 4} />
-        ))}
+      <div>
+        <h2 className="text-3xl font-bold font-headline mb-4 text-center">Trending NFTs</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {trendingNfts.map((nft, index) => (
+            <NftCard key={nft.id} {...nft} priority={index < 4} />
+          ))}
+        </div>
       </div>
     </div>
   );

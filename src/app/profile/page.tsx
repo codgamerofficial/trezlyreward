@@ -1,6 +1,7 @@
+
 'use client'
 import Image from 'next/image';
-import {NftCard} from '@/components/nft-card';
+import { ProfileNftCard } from '@/components/profile-nft-card';
 import {Card, CardContent, CardHeader} from '@/components/ui/card';
 import {Separator} from '@/components/ui/separator';
 import {Button} from '@/components/ui/button';
@@ -11,10 +12,18 @@ import { createClient } from '@/lib/supabase-client';
 import type { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 
+type Nft = {
+  id: string;
+  name: string;
+  creator: string;
+  price: string;
+  imageUrl: string;
+  aiHint: string;
+};
 
-const userNfts = [
+const initialUserNfts = [
   {
-    id: '1',
+    id: '101',
     name: 'Cosmic Dream',
     creator: 'PixelPioneer',
     price: '2.1 ETH',
@@ -22,47 +31,54 @@ const userNfts = [
     aiHint: 'cosmic dream',
   },
   {
-    id: '2',
+    id: '102',
     name: 'Retro Future',
     creator: 'PixelPioneer',
     price: '1.8 ETH',
     imageUrl: 'https://placehold.co/400x400.png',
     aiHint: 'retro future',
   },
-  {
-    id: '3',
-    name: 'Pixelated Hero',
-    creator: 'PixelPioneer',
-    price: '3.5 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
-    aiHint: 'pixel hero',
-  },
-  {
-    id: '4',
-    name: 'Glitch Garden',
-    creator: 'PixelPioneer',
-    price: '0.7 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
-    aiHint: 'glitch art',
-  },
 ];
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
+  const [userNfts, setUserNfts] = useState<Nft[]>([]);
   const supabase = createClient();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserAndNfts = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
+        const storedNfts = JSON.parse(localStorage.getItem('userNfts') || '[]');
+        if (storedNfts.length === 0) {
+            localStorage.setItem('userNfts', JSON.stringify(initialUserNfts));
+            setUserNfts(initialUserNfts);
+        } else {
+            setUserNfts(storedNfts);
+        }
       } else {
         router.push('/login');
       }
     };
-    fetchUser();
+    fetchUserAndNfts();
   }, [supabase, router]);
+  
+  const handleSellNft = (nftId: string) => {
+    const nftToSell = userNfts.find(nft => nft.id === nftId);
+    if (!nftToSell) return;
+
+    // Remove from user's collection
+    const updatedUserNfts = userNfts.filter(nft => nft.id !== nftId);
+    setUserNfts(updatedUserNfts);
+    localStorage.setItem('userNfts', JSON.stringify(updatedUserNfts));
+
+    // Add back to trending list
+    const existingTrending = JSON.parse(localStorage.getItem('trendingNfts') || '[]');
+    localStorage.setItem('trendingNfts', JSON.stringify([...existingTrending, nftToSell]));
+  };
+
 
   if (!user) {
     return <div className="flex justify-center items-center h-[80vh]">Loading...</div>;
@@ -123,7 +139,7 @@ export default function ProfilePage() {
               <p className="text-sm text-muted-foreground">Volume</p>
             </div>
             <div>
-              <p className="text-2xl font-bold font-mono">87</p>
+              <p className="text-2xl font-bold font-mono">{userNfts.length}</p>
               <p className="text-sm text-muted-foreground">NFTs Owned</p>
             </div>
             <div>
@@ -140,12 +156,19 @@ export default function ProfilePage() {
       </Card>
 
       <div>
-        <h3 className="text-2xl font-bold font-headline mb-4">Collection</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {userNfts.map(nft => (
-            <NftCard key={nft.id} {...nft} />
-          ))}
-        </div>
+        <h3 className="text-2xl font-bold font-headline mb-4">My Collection</h3>
+        {userNfts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {userNfts.map(nft => (
+              <ProfileNftCard key={nft.id} {...nft} onSell={handleSellNft} />
+            ))}
+          </div>
+        ) : (
+          <Card className="text-center p-8">
+            <p className="text-muted-foreground">Your collection is empty.</p>
+            <Button variant="link" asChild><a href="/">Explore the marketplace</a></Button>
+          </Card>
+        )}
       </div>
     </div>
   );
