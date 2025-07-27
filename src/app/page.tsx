@@ -16,7 +16,7 @@ const initialTrendingNfts = [
     name: 'Cybernetic Oracle',
     creator: '0x...a1b2',
     price: '1.5 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'cyberpunk oracle',
   },
   {
@@ -24,7 +24,7 @@ const initialTrendingNfts = [
     name: 'Aetheric Golem',
     creator: 'Neuromancer',
     price: '3.2 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'fantasy golem',
   },
   {
@@ -32,7 +32,7 @@ const initialTrendingNfts = [
     name: 'Neon Wanderer',
     creator: 'SynthwaveArtist',
     price: '0.8 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'neon wanderer',
   },
   {
@@ -40,7 +40,7 @@ const initialTrendingNfts = [
     name: 'Chrono-Shard',
     creator: 'TimeKeeper',
     price: '5.0 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'time crystal',
   },
   {
@@ -48,7 +48,7 @@ const initialTrendingNfts = [
     name: 'Forest Sprite',
     creator: 'FaeRealm',
     price: '1.1 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'fantasy sprite',
   },
   {
@@ -56,7 +56,7 @@ const initialTrendingNfts = [
     name: 'Quantum Serpent',
     creator: '0x...c3d4',
     price: '2.7 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'quantum snake',
   },
   {
@@ -64,7 +64,7 @@ const initialTrendingNfts = [
     name: 'Void Runner',
     creator: 'Starlight',
     price: '0.95 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'space runner',
   },
   {
@@ -72,7 +72,7 @@ const initialTrendingNfts = [
     name: 'Glimmering Idol',
     creator: 'Ancient-One',
     price: '4.2 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'ancient idol',
   },
 ];

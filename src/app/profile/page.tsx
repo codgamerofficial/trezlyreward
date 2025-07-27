@@ -27,7 +27,7 @@ const initialUserNfts = [
     name: 'Cosmic Dream',
     creator: 'PixelPioneer',
     price: '2.1 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'cosmic dream',
   },
   {
@@ -35,7 +35,7 @@ const initialUserNfts = [
     name: 'Retro Future',
     creator: 'PixelPioneer',
     price: '1.8 ETH',
-    imageUrl: 'https://placehold.co/400x400.png',
+    imageUrl: 'https://placehold.co/600x600.png',
     aiHint: 'retro future',
   },
 ];
