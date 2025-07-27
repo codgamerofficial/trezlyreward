@@ -3,7 +3,7 @@
 import type {ReactNode} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {LayoutGrid, Trophy, Sparkles, User, Wallet} from 'lucide-react';
+import {LayoutGrid, Trophy, Sparkles, User, Wallet, PiggyBank} from 'lucide-react';
 
 import {
   SidebarProvider,
@@ -22,6 +22,7 @@ import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 const menuItems = [
   {href: '/', label: 'Explorer', icon: LayoutGrid},
   {href: '/leaderboard', label: 'Leaderboard', icon: Trophy},
+  {href: '/invest', label: 'Invest', icon: PiggyBank},
   {href: '/ai-namer', label: 'AI Namer', icon: Sparkles},
 ];
 
