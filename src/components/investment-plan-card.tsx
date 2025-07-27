@@ -60,7 +60,7 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
           address: "Treazly Corporate Office"
       },
       theme: {
-          color: "#3399cc"
+          color: "#4ade80" // Green color from new theme
       }
     };
 
@@ -103,7 +103,7 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
   };
 
   return (
-    <Card className="group overflow-hidden border-2 transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300" style={{'--plan-color': color, borderColor: 'var(--plan-color)', boxShadow: `0 0 20px -5px var(--plan-color)`} as React.CSSProperties}>
+    <Card className="group overflow-hidden border-2 transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300" style={{'--plan-color': color, borderColor: 'var(--plan-color)', boxShadow: `0 0 20px -5px oklch(from var(--plan-color) l c h / 0.5)`} as React.CSSProperties}>
       <CardHeader className="p-4" style={{ background: `linear-gradient(135deg, oklch(from var(--plan-color) l c h / 0.2), oklch(from var(--plan-color) l c h / 0.05))`}}>
         <CardTitle className="font-headline text-2xl" style={{color: 'var(--plan-color)'}}>{name}</CardTitle>
       </CardHeader>
@@ -128,7 +128,7 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" style={{backgroundColor: 'var(--plan-color)', color: 'black'}} onClick={handleInvest}>Invest Now</Button>
+        <Button className="w-full font-bold" style={{backgroundColor: 'var(--plan-color)', color: 'black'}} onClick={handleInvest}>Invest Now</Button>
       </CardFooter>
     </Card>
   );
