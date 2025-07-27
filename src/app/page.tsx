@@ -2,6 +2,7 @@ import {NftCard} from '@/components/nft-card';
 import { CalculatorWidget } from '@/components/widgets/calculator-widget';
 import { CalendarWidget } from '@/components/widgets/calendar-widget';
 import { ClockWidget } from '@/components/widgets/clock-widget';
+import { MapWidget } from '@/components/widgets/map-widget';
 import { NewsWidget } from '@/components/widgets/news-widget';
 import { WeatherWidget } from '@/components/widgets/weather-widget';
 
@@ -81,6 +82,7 @@ export default function HomePage() {
         <NewsWidget />
         <CalendarWidget />
         <CalculatorWidget />
+        <MapWidget />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {trendingNfts.map((nft, index) => (
