@@ -1,4 +1,9 @@
 import {NftCard} from '@/components/nft-card';
+import { CalculatorWidget } from '@/components/widgets/calculator-widget';
+import { CalendarWidget } from '@/components/widgets/calendar-widget';
+import { ClockWidget } from '@/components/widgets/clock-widget';
+import { NewsWidget } from '@/components/widgets/news-widget';
+import { WeatherWidget } from '@/components/widgets/weather-widget';
 
 const trendingNfts = [
   {
@@ -70,6 +75,13 @@ const trendingNfts = [
 export default function HomePage() {
   return (
     <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+        <ClockWidget />
+        <WeatherWidget />
+        <NewsWidget />
+        <CalendarWidget />
+        <CalculatorWidget />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {trendingNfts.map((nft, index) => (
           <NftCard key={nft.id} {...nft} priority={index < 4} />
