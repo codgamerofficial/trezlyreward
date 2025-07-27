@@ -8,6 +8,7 @@ type NftCardProps = {
   price: string;
   imageUrl: string;
   aiHint: string;
+  priority?: boolean;
 };
 
 export function NftCard({
@@ -16,6 +17,7 @@ export function NftCard({
   price,
   imageUrl,
   aiHint,
+  priority = false,
 }: NftCardProps) {
   return (
     <Card className="group overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/30 bg-card">
@@ -27,6 +29,7 @@ export function NftCard({
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             data-ai-hint={aiHint}
+            priority={priority}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         </div>
