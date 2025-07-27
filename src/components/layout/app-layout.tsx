@@ -99,7 +99,7 @@ export function AppLayout({children}: {children: ReactNode}) {
           <div className="flex items-center gap-4">
             <Button>
               <Wallet className="mr-2 h-4 w-4" />
-              Integrate Payment API
+              Connect Wallet
             </Button>
             <Link href="/profile">
               <Avatar>
