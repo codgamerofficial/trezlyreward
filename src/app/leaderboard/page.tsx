@@ -1,3 +1,4 @@
+
 import {
   Table,
   TableBody,
@@ -79,21 +80,21 @@ export default function LeaderboardPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[50px]">Rank</TableHead>
+              <TableHead className="w-[50px] pl-2 sm:pl-4">Rank</TableHead>
               <TableHead>User</TableHead>
               <TableHead className="text-right">Volume</TableHead>
-              <TableHead className="text-right">NFTs</TableHead>
+              <TableHead className="text-right pr-2 sm:pr-4">NFTs</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {leaderboardData.map((user, index) => (
               <TableRow key={user.id}>
-                <TableCell className="font-bold text-xl text-primary">
+                <TableCell className="font-bold text-lg sm:text-xl text-primary pl-2 sm:pl-4">
                   {index + 1}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-4">
-                    <Avatar>
+                  <div className="flex items-center gap-2 sm:gap-4">
+                    <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
                       <AvatarImage
                         src={user.avatarUrl}
                         alt={user.name}
@@ -104,25 +105,25 @@ export default function LeaderboardPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-semibold font-headline">{user.name}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-semibold font-headline text-sm sm:text-base">{user.name}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
                         {user.wallet}
                       </p>
                     </div>
                     {user.badge && (
                       <Badge
                         variant="secondary"
-                        className="ml-2 bg-accent/20 text-accent border-accent/30"
+                        className="ml-2 bg-accent/20 text-accent border-accent/30 hidden sm:inline-flex"
                       >
                         {user.badge}
                       </Badge>
                     )}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-mono">
+                <TableCell className="text-right font-mono text-sm sm:text-base">
                   {user.volume} ETH
                 </TableCell>
-                <TableCell className="text-right font-mono">{user.nfts}</TableCell>
+                <TableCell className="text-right font-mono text-sm sm:text-base pr-2 sm:pr-4">{user.nfts}</TableCell>
               </TableRow>
             ))}
           </TableBody>

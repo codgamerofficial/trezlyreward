@@ -91,7 +91,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-8">
       <Card className="bg-card overflow-hidden">
-        <CardHeader className="p-0 relative h-48">
+        <CardHeader className="p-0 relative h-36 md:h-48">
           <Image
             src="https://placehold.co/1200x400.png"
             alt="Banner"
@@ -100,9 +100,9 @@ export default function ProfilePage() {
             data-ai-hint="abstract background"
           />
         </CardHeader>
-        <CardContent className="p-6 pt-0 -mt-16">
+        <CardContent className="p-4 md:p-6 pt-0 -mt-12 md:-mt-16">
           <div className="flex items-end gap-4">
-            <div className="relative w-32 h-32 rounded-full border-4 border-background bg-background">
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background">
               <Image
                 src="https://placehold.co/200x200.png"
                 alt="User Avatar"
@@ -112,8 +112,8 @@ export default function ProfilePage() {
               />
             </div>
             <div className="flex-grow pb-2">
-              <h2 className="text-3xl font-bold font-headline">{userName}</h2>
-              <p className="text-muted-foreground">{userEmail}</p>
+              <h2 className="text-2xl md:text-3xl font-bold font-headline">{userName}</h2>
+              <p className="text-sm md:text-base text-muted-foreground">{userEmail}</p>
             </div>
             <div className="flex gap-2 pb-2">
               <Button variant="outline" size="icon">
@@ -131,20 +131,20 @@ export default function ProfilePage() {
           <Separator className="my-6" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold font-mono">1,200</p>
-              <p className="text-sm text-muted-foreground">Loyalty Points</p>
+              <p className="text-xl md:text-2xl font-bold font-mono">1,200</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Loyalty Points</p>
             </div>
             <div>
-              <p className="text-2xl font-bold font-mono">15.8 ETH</p>
-              <p className="text-sm text-muted-foreground">Volume</p>
+              <p className="text-xl md:text-2xl font-bold font-mono">15.8 ETH</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Volume</p>
             </div>
             <div>
-              <p className="text-2xl font-bold font-mono">{userNfts.length}</p>
-              <p className="text-sm text-muted-foreground">NFTs Owned</p>
+              <p className="text-xl md:text-2xl font-bold font-mono">{userNfts.length}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">NFTs Owned</p>
             </div>
             <div>
-              <p className="text-2xl font-bold font-mono">12</p>
-              <p className="text-sm text-muted-foreground">Creations</p>
+              <p className="text-xl md:text-2xl font-bold font-mono">12</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Creations</p>
             </div>
           </div>
           <div className="mt-4 text-center">
@@ -158,7 +158,7 @@ export default function ProfilePage() {
       <div>
         <h3 className="text-2xl font-bold font-headline mb-4">My Collection</h3>
         {userNfts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {userNfts.map(nft => (
               <ProfileNftCard key={nft.id} {...nft} onSell={handleSellNft} />
             ))}

@@ -131,26 +131,26 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <Card>
               <CardHeader className="p-4">
-                <CardTitle className="text-lg">Total Earned</CardTitle>
+                <CardTitle className="text-base sm:text-lg">Total Earned</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-3xl sm:text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
+                <p className="text-2xl sm:text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="p-4">
-                <CardTitle className="text-lg">Projected Return</CardTitle>
+                <CardTitle className="text-base sm:text-lg">Projected Return</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
+                <p className="text-2xl sm:text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
               </CardContent>
             </Card>
              <Card>
               <CardHeader className="p-4">
-                <CardTitle className="text-lg">Daily Income</CardTitle>
+                <CardTitle className="text-base sm:text-lg">Daily Income</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
+                <p className="text-2xl sm:text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
               </CardContent>
             </Card>
           </div>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
+            <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{fontSize: 12}} />
               <YAxis tick={{fontSize: 12}} />
