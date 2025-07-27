@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { format, isSameDay, startOfDay } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
 
 type Reminder = {
   id: number;
@@ -25,7 +26,7 @@ export function CalendarWidget() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [reminderText, setReminderText] = useState('');
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDateForDialog, setSelectedDateForDialog] = useState<Date | undefined>(new Date());
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export function CalendarWidget() {
   const handleDateSelect = (selectedDay: Date | undefined) => {
     if (!selectedDay) return;
     setDate(selectedDay);
-    setSelectedDate(selectedDay);
+    setSelectedDateForDialog(selectedDay);
     
     const todaysReminders = reminders.filter(r => isSameDay(new Date(r.date), selectedDay));
     if (todaysReminders.length === 0) {
@@ -57,10 +58,10 @@ export function CalendarWidget() {
   };
   
   const handleSaveReminder = () => {
-    if (!reminderText || !selectedDate) return;
+    if (!reminderText || !selectedDateForDialog) return;
     const newReminder: Reminder = {
       id: Date.now(),
-      date: startOfDay(selectedDate).toISOString(),
+      date: startOfDay(selectedDateForDialog).toISOString(),
       text: reminderText,
     };
     const updatedReminders = [...reminders, newReminder];
@@ -70,7 +71,7 @@ export function CalendarWidget() {
     setIsDialogOpen(false);
     toast({
       title: 'Reminder Set!',
-      description: `On ${format(selectedDate, 'PPP')}: ${reminderText}`,
+      description: `On ${format(selectedDateForDialog, 'PPP')}: ${reminderText}`,
     });
   };
   
@@ -83,13 +84,18 @@ export function CalendarWidget() {
       variant: 'destructive'
     });
   };
+  
+  const handleAddReminderClick = () => {
+    setSelectedDateForDialog(date);
+    setIsDialogOpen(true);
+  }
 
-  const selectedDayReminders = selectedDate ? reminders.filter(r => isSameDay(new Date(r.date), selectedDate)) : [];
+  const selectedDayReminders = date ? reminders.filter(r => isSameDay(new Date(r.date), date)) : [];
 
   return (
     <>
       <Card className="flex flex-col animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
-        <CardContent className="p-0 flex items-center justify-center flex-grow">
+        <CardContent className="p-2 md:p-4 flex items-center justify-center flex-grow">
           {isClient ? (
             <Calendar
               mode="single"
@@ -97,7 +103,7 @@ export function CalendarWidget() {
               onSelect={handleDateSelect}
               className="p-0"
               classNames={{
-                root: 'w-full h-full flex flex-col justify-center',
+                root: 'w-full',
                 months: 'w-full',
                 month: 'w-full space-y-2',
                 table: 'w-full',
@@ -105,11 +111,11 @@ export function CalendarWidget() {
                 row: 'flex w-full justify-around mt-1',
               }}
               components={{
-                DayContent: ({ date }) => {
-                  const hasReminder = reminders.some(r => isSameDay(new Date(r.date), date));
+                DayContent: ({ date: day }) => {
+                  const hasReminder = reminders.some(r => isSameDay(new Date(r.date), day));
                   return (
                     <div className="relative">
-                      {date.getDate()}
+                      {day.getDate()}
                       {hasReminder && (
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-primary" />
                       )}
@@ -140,23 +146,37 @@ export function CalendarWidget() {
             </div>
           )}
         </CardContent>
-         {isClient && selectedDayReminders.length > 0 && (
-          <CardHeader>
-            <CardTitle className="text-base">Reminders for {selectedDate && format(selectedDate, 'PPP')}</CardTitle>
-            <ScrollArea className="h-24 pr-4">
-                <ul className="space-y-2 mt-2">
-                {selectedDayReminders.map(reminder => (
-                    <li key={reminder.id} className="flex items-center justify-between text-sm p-2 bg-muted/50 rounded-md">
-                    <span>{reminder.text}</span>
-                    <Button variant="ghost" size="sm" onClick={() => handleDeleteReminder(reminder.id)}>Delete</Button>
-                    </li>
-                ))}
-                </ul>
-            </ScrollArea>
-             <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(true)} className="mt-2">
-              Add another reminder
-            </Button>
-          </CardHeader>
+         {isClient && (
+          <>
+            <Separator />
+            <CardHeader>
+              <CardTitle className="text-base">Reminders for {date && format(date, 'PPP')}</CardTitle>
+                {selectedDayReminders.length > 0 ? (
+                  <>
+                  <ScrollArea className="h-24 pr-4">
+                      <ul className="space-y-2 mt-2">
+                      {selectedDayReminders.map(reminder => (
+                          <li key={reminder.id} className="flex items-center justify-between text-sm p-2 bg-muted/50 rounded-md">
+                          <span>{reminder.text}</span>
+                          <Button variant="ghost" size="sm" onClick={() => handleDeleteReminder(reminder.id)}>Delete</Button>
+                          </li>
+                      ))}
+                      </ul>
+                  </ScrollArea>
+                  <Button variant="outline" size="sm" onClick={handleAddReminderClick} className="mt-2">
+                    Add another reminder
+                  </Button>
+                  </>
+                ) : (
+                  <div className="text-center text-muted-foreground py-4">
+                    <p>No reminders for this day.</p>
+                     <Button variant="link" size="sm" onClick={handleAddReminderClick} className="mt-1">
+                      Add one?
+                    </Button>
+                  </div>
+                )}
+            </CardHeader>
+          </>
         )}
       </Card>
 
@@ -165,7 +185,7 @@ export function CalendarWidget() {
           <DialogHeader>
             <DialogTitle>Add Reminder</DialogTitle>
              <DialogDescription>
-              Set a reminder for {selectedDate && format(selectedDate, 'PPP')}.
+              Set a reminder for {selectedDateForDialog && format(selectedDateForDialog, 'PPP')}.
             </DialogDescription>
           </DialogHeader>
           <Input 
