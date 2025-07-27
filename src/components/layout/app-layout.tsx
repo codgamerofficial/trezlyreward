@@ -34,6 +34,7 @@ const menuItems = [
   {href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
   {href: '/trading', label: 'Trading', icon: CandlestickChart},
   {href: '/ai-namer', label: 'AI Namer', icon: Sparkles},
+  {href: '/creative-studio', label: 'Creative Studio', icon: Sparkles},
 ];
 
 export function AppLayout({children}: {children: ReactNode}) {
