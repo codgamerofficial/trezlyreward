@@ -26,7 +26,7 @@ export function ClockWidget() {
           </div>
         ) : (
           <div className="font-mono text-5xl font-bold text-primary">
-            Loading...
+            00:00:00
           </div>
         )}
       </CardContent>

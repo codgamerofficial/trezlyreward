@@ -83,6 +83,11 @@ export default function DashboardPage() {
     });
     localStorage.removeItem('userInvestment');
     setInvestment(null);
+    setEarnings(0);
+    toast({
+        title: 'Earnings Withdrawn',
+        description: 'Your investment has been reset. You can now choose a new plan.',
+    });
     router.push('/invest');
   };
 
@@ -105,8 +110,7 @@ export default function DashboardPage() {
   }
 
   const progressPercentage = (daysPassed / investment.duration) * 100;
-  const isPlanComplete = daysPassed >= investment.duration;
-
+  
   return (
     <div className="space-y-8">
       <div>
@@ -166,7 +170,7 @@ export default function DashboardPage() {
           <Dialog>
             <DialogTrigger asChild>
               <Button className="w-full" size="lg" disabled={earnings <= 0}>
-                {isPlanComplete ? 'Withdraw Full Amount' : 'Take Out Earnings'}
+                Withdraw Earnings
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -229,7 +233,6 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </CardContent>
       </Card>
-
     </div>
   );
 }
