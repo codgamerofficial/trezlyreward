@@ -40,9 +40,11 @@ export function AppLayout({children}: {children: ReactNode}) {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const supabase = createClient()
 
   useEffect(() => {
+    setIsClient(true);
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
@@ -128,7 +130,7 @@ export function AppLayout({children}: {children: ReactNode}) {
       <SidebarInset>
         <header className="flex items-center justify-between p-4 border-b sticky top-0 bg-background/80 backdrop-blur-sm z-10">
            <div className="flex items-center gap-4">
-            <SidebarTrigger className="md:hidden" />
+            {isClient && <SidebarTrigger className="md:hidden" />}
              <h2 className="text-2xl font-headline font-bold text-primary hidden sm:block">
               {currentPage.label}
             </h2>
