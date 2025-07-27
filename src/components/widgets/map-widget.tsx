@@ -1,23 +1,22 @@
 'use client';
 
-import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function MapWidget() {
   return (
     <Card className="col-span-1 md:col-span-2 animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
       <CardHeader>
-        <CardTitle>Map</CardTitle>
+        <CardTitle>World Map</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="relative aspect-video w-full">
-          <Image
-            src="https://placehold.co/800x450.png"
-            alt="Map"
-            fill
-            className="object-cover rounded-md"
-            data-ai-hint="world map"
-          />
+        <div className="relative aspect-video w-full overflow-hidden rounded-md">
+          <iframe
+            className="absolute top-0 left-0 w-full h-full"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-171.2109375,-40.3130433,178.59375,69.0990393&layer=mapnik"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </CardContent>
     </Card>
