@@ -8,6 +8,8 @@ import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { differenceInDays, addDays, format } from 'date-fns';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 type InvestmentPlan = {
   id: string;
@@ -29,6 +31,8 @@ export default function DashboardPage() {
   const [earnings, setEarnings] = useState(0);
   const [daysPassed, setDaysPassed] = useState(0);
   const [chartData, setChartData] = useState<any[]>([]);
+  const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const storedInvestment = localStorage.getItem('userInvestment');
@@ -59,6 +63,17 @@ export default function DashboardPage() {
     }
   }, []);
 
+  const handleWithdraw = () => {
+    // In a real app, this would trigger a payout process.
+    toast({
+      title: 'Withdrawal Initiated',
+      description: `Your earnings of ₹${earnings.toLocaleString()} will be processed.`,
+    });
+    localStorage.removeItem('userInvestment');
+    setInvestment(null);
+    router.push('/invest');
+  }
+
   if (!investment) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
@@ -78,6 +93,7 @@ export default function DashboardPage() {
   }
 
   const progressPercentage = (daysPassed / investment.duration) * 100;
+  const isPlanComplete = daysPassed >= investment.duration;
 
   return (
     <div className="space-y-8">
@@ -134,6 +150,13 @@ export default function DashboardPage() {
             </div>
           </div>
         </CardContent>
+        {isPlanComplete && (
+           <CardFooter>
+             <Button onClick={handleWithdraw} className="w-full" size="lg">
+                Withdraw Earnings
+              </Button>
+           </CardFooter>
+        )}
       </Card>
 
       <Card>

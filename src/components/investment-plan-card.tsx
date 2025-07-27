@@ -15,24 +15,82 @@ type InvestmentPlan = {
   color: string;
 };
 
+declare const Razorpay: any;
+
 export function InvestmentPlanCard(plan: InvestmentPlan) {
   const { name, investment, dailyIncome, duration, totalReturn, color } = plan;
   const {toast} = useToast();
   const router = useRouter();
 
-  const handleInvest = () => {
-    // In a real app, this would involve a payment gateway.
-    // Here we'll simulate the investment and store it in localStorage.
-    const investmentData = {
-      ...plan,
-      purchaseDate: new Date().toISOString(),
+  const handleInvest = async () => {
+    // In a real app, you would fetch an order_id from your backend
+    // For now, we simulate this.
+    
+    const options = {
+      key: 'YOUR_RAZORPAY_KEY_ID', // Enter the Key ID generated from the Dashboard
+      amount: investment * 100, // Amount is in currency subunits. Default currency is INR.
+      currency: "INR",
+      name: "Treazly Inc.",
+      description: `Invest in ${name}`,
+      image: "https://placehold.co/100x100.png",
+      //order_id: "order_9A33XG45g34gkh", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: function (response: any){
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+
+        const investmentData = {
+          ...plan,
+          purchaseDate: new Date().toISOString(),
+          paymentId: response.razorpay_payment_id,
+        };
+        localStorage.setItem('userInvestment', JSON.stringify(investmentData));
+        toast({
+          title: 'Investment Successful!',
+          description: `You have invested in the ${name}.`,
+        });
+        router.push('/dashboard');
+      },
+      prefill: {
+          name: "PixelPioneer",
+          email: "pioneer@example.com",
+          contact: "9999999999"
+      },
+      notes: {
+          address: "Treazly Corporate Office"
+      },
+      theme: {
+          color: "#3399cc"
+      }
     };
-    localStorage.setItem('userInvestment', JSON.stringify(investmentData));
-    toast({
-      title: 'Investment Successful!',
-      description: `You have invested in the ${name}.`,
+
+    if (typeof Razorpay === 'undefined') {
+      toast({
+        title: 'Razorpay not loaded',
+        description: 'Please check your internet connection and try again.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const rzp1 = new Razorpay(options);
+
+    rzp1.on('payment.failed', function (response: any){
+      // alert(response.error.code);
+      // alert(response.error.description);
+      // alert(response.error.source);
+      // alert(response.error.step);
+      // alert(response.error.reason);
+      // alert(response.error.metadata.order_id);
+      // alert(response.error.metadata.payment_id);
+      toast({
+        title: 'Payment Failed',
+        description: response.error.description,
+        variant: 'destructive',
+      });
     });
-    router.push('/dashboard');
+
+    rzp1.open();
   };
 
   return (
