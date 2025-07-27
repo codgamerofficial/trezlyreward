@@ -4,7 +4,7 @@
 import type {ReactNode} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {LayoutGrid, Trophy, Sparkles, User, Wallet, PiggyBank, BarChart3, LogOut, LogIn} from 'lucide-react';
+import {LayoutGrid, Trophy, Sparkles, User, PiggyBank, BarChart3, LogOut, LogIn, CandlestickChart} from 'lucide-react';
 
 import {
   SidebarProvider,
@@ -31,6 +31,7 @@ const menuItems = [
   {href: '/leaderboard', label: 'Leaderboard', icon: Trophy},
   {href: '/invest', label: 'Invest', icon: PiggyBank},
   {href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
+  {href: '/trading', label: 'Trading', icon: CandlestickChart},
   {href: '/ai-namer', label: 'AI Namer', icon: Sparkles},
 ];
 
