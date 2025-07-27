@@ -94,7 +94,7 @@ export function CalendarWidget() {
 
   return (
     <>
-      <Card className="col-span-1 md:col-span-2 flex flex-col animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
+      <Card className="col-span-1 md:col-span-2 row-span-2 flex flex-col animate-in fade-in-0 slide-in-from-top-4 duration-500 ease-in-out">
         <CardContent className="p-2 md:p-4 flex items-center justify-center flex-grow">
           {isClient ? (
             <Calendar
@@ -149,7 +149,7 @@ export function CalendarWidget() {
          {isClient && (
           <>
             <Separator />
-            <CardHeader>
+            <CardHeader className="flex-shrink-0">
               <CardTitle className="text-base">Reminders for {date && format(date, 'PPP')}</CardTitle>
                 {selectedDayReminders.length > 0 ? (
                   <>
