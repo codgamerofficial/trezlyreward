@@ -134,7 +134,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-base sm:text-lg">Total Earned</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-2xl sm:text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
+                <p className="text-3xl sm:text-4xl font-bold font-mono text-accent">₹{earnings.toLocaleString()}</p>
               </CardContent>
             </Card>
             <Card>
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-base sm:text-lg">Projected Return</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-2xl sm:text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
+                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.totalReturn.toLocaleString()}</p>
               </CardContent>
             </Card>
              <Card>
@@ -150,7 +150,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-base sm:text-lg">Daily Income</CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-2xl sm:text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
+                <p className="text-3xl sm:text-4xl font-bold font-mono">₹{investment.dailyIncome.toLocaleString()}</p>
               </CardContent>
             </Card>
           </div>
