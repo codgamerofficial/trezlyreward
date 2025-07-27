@@ -134,7 +134,7 @@ export function AppLayout({children}: {children: ReactNode}) {
              {isClient && <h2 className="text-2xl font-headline font-bold text-primary hidden sm:block">
               {currentPage.label}
             </h2>}
-            <nav className="hidden lg:flex items-center gap-4 text-sm font-medium">
+            {isClient && <nav className="hidden lg:flex items-center gap-4 text-sm font-medium">
               {menuItems.map((item) => (
                 <Link
                   key={item.href}
@@ -147,7 +147,7 @@ export function AppLayout({children}: {children: ReactNode}) {
                   {item.label}
                 </Link>
               ))}
-            </nav>
+            </nav>}
            </div>
           <div className="flex items-center gap-4">
             {user ? (
