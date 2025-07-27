@@ -76,13 +76,17 @@ const trendingNfts = [
 export default function HomePage() {
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-        <ClockWidget />
-        <WeatherWidget />
-        <NewsWidget />
-        <CalendarWidget />
-        <CalculatorWidget />
-        <MapWidget />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ClockWidget />
+            <WeatherWidget />
+            <NewsWidget />
+            <CalculatorWidget />
+        </div>
+        <div className="lg:col-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+            <CalendarWidget />
+            <MapWidget />
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {trendingNfts.map((nft, index) => (
