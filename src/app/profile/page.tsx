@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase-client';
 import type { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 type Nft = {
   id: string;
@@ -119,8 +120,10 @@ export default function ProfilePage() {
               <Button variant="outline" size="icon">
                 <Share2 className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon">
-                <Settings className="h-4 w-4" />
+              <Button variant="outline" size="icon" asChild>
+                <Link href="/settings">
+                  <Settings className="h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>

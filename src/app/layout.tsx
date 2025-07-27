@@ -29,6 +29,20 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              })();
+            `,
+          }}
+        />
         <AppLayout>{children}</AppLayout>
         <Toaster />
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
