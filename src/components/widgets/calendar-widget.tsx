@@ -2,10 +2,14 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function CalendarWidget() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   return (
     <Card className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 flex flex-col">
