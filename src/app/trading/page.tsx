@@ -120,24 +120,28 @@ export default function TradingPage() {
   const renderAssetList = (assets: Asset[]) => (
     <div className="space-y-4">
       {assets.map(asset => (
-        <Card key={asset.id} className="flex items-center p-4">
-          <img src={asset.logoUrl} alt={asset.name} className="w-10 h-10 mr-4" />
-          <div className="flex-grow">
-            <p className="font-bold">{asset.name} ({asset.id})</p>
-            <p className="text-lg font-mono">
-              ${asset.price.toLocaleString()}
-            </p>
+        <Card key={asset.id} className="p-3 sm:p-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <img src={asset.logoUrl} alt={asset.name} className="w-10 h-10" />
+              <div>
+                <p className="font-bold sm:text-lg">{asset.name} ({asset.id})</p>
+                <p className="text-sm font-mono sm:text-base">
+                  ${asset.price.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className={`font-semibold flex items-center justify-end ${asset.change24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                {asset.change24h >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                {asset.change24h.toFixed(2)}%
+              </p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Vol: ${(asset.volume24h/1_000_000_000).toFixed(2)}B</p>
+            </div>
           </div>
-           <div className="text-right mr-4">
-            <p className={`font-semibold flex items-center justify-end ${asset.change24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-              {asset.change24h >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
-              {asset.change24h.toFixed(2)}%
-            </p>
-            <p className="text-sm text-muted-foreground">Vol: ${(asset.volume24h/1_000_000_000).toFixed(2)}B</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button size="sm" onClick={() => handleTradeClick(asset, 'buy')} className="bg-green-600 hover:bg-green-700">Buy</Button>
-            <Button size="sm" variant="destructive" onClick={() => handleTradeClick(asset, 'sell')}>Sell</Button>
+          <div className="flex gap-2 mt-4">
+            <Button size="sm" onClick={() => handleTradeClick(asset, 'buy')} className="flex-1 bg-green-600 hover:bg-green-700">Buy</Button>
+            <Button size="sm" variant="destructive" onClick={() => handleTradeClick(asset, 'sell')} className="flex-1">Sell</Button>
           </div>
         </Card>
       ))}
@@ -159,47 +163,50 @@ export default function TradingPage() {
         <CardHeader>
           <CardTitle>Your Portfolio</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-4 p-4 bg-background rounded-lg">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="flex items-center gap-4 p-4 bg-background rounded-lg border">
              <div className="p-3 bg-primary/20 rounded-lg"><DollarSign className="w-6 h-6 text-primary"/></div>
             <div>
               <p className="text-muted-foreground">Cash Balance</p>
-              <p className="text-2xl font-bold">${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+              <p className="text-xl md:text-2xl font-bold">${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-background rounded-lg">
+          <div className="flex items-center gap-4 p-4 bg-background rounded-lg border">
             <div className="p-3 bg-accent/20 rounded-lg"><Briefcase className="w-6 h-6 text-accent"/></div>
             <div>
               <p className="text-muted-foreground">Portfolio Value</p>
-              <p className="text-2xl font-bold">${portfolioValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+              <p className="text-xl md:text-2xl font-bold">${portfolioValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-background rounded-lg">
+          <div className="flex items-center gap-4 p-4 bg-background rounded-lg border lg:col-span-1 sm:col-span-2">
             <div className="p-3 bg-secondary rounded-lg"><LineChart className="w-6 h-6 text-secondary-foreground"/></div>
             <div>
               <p className="text-muted-foreground">Total Net Worth</p>
-              <p className="text-2xl font-bold">${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+              <p className="text-xl md:text-2xl font-bold">${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
             </div>
           </div>
         </CardContent>
          {portfolio.length > 0 && (
-          <CardFooter className="flex-col items-start">
-            <Separator className="my-4" />
+          <CardFooter className="flex-col items-start pt-4">
+            <Separator className="mb-4" />
             <h3 className="text-lg font-semibold mb-2">Your Assets</h3>
             <div className="w-full space-y-2">
-                {portfolio.map(asset => (
-                    <div key={asset.assetId} className="flex justify-between items-center p-2 bg-background rounded-md">
-                        <div>
-                            <p className="font-bold">{asset.name} ({asset.assetId})</p>
-                            <p className="text-sm text-muted-foreground">
-                                Qty: {asset.quantity.toLocaleString()} @ avg ${asset.avgBuyPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                            </p>
+                {portfolio.map(asset => {
+                    const currentAssetData = [...cryptoAssets, ...stockAssets].find(a => a.id === asset.assetId);
+                    return (
+                        <div key={asset.assetId} className="flex flex-wrap gap-2 justify-between items-center p-2 bg-background rounded-md border">
+                            <div>
+                                <p className="font-bold">{asset.name} ({asset.assetId})</p>
+                                <p className="text-sm text-muted-foreground">
+                                    Qty: {asset.quantity.toLocaleString()} @ avg ${asset.avgBuyPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                                </p>
+                            </div>
+                            <Button variant="outline" size="sm" onClick={() => currentAssetData && handleTradeClick(currentAssetData, 'sell')}>
+                                Trade
+                            </Button>
                         </div>
-                        <Button variant="ghost" size="sm" onClick={() => handleTradeClick([...cryptoAssets, ...stockAssets].find(a => a.id === asset.assetId)!, 'sell')}>
-                            Sell
-                        </Button>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
           </CardFooter>
         )}
