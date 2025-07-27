@@ -3,7 +3,7 @@
 import type {ReactNode} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {LayoutGrid, Trophy, Sparkles, User, Wallet, PiggyBank, BarChart3} from 'lucide-react';
+import {LayoutGrid, Trophy, Sparkles, User, Wallet, PiggyBank, BarChart3, LogOut, LogIn} from 'lucide-react';
 
 import {
   SidebarProvider,
@@ -18,6 +18,11 @@ import {
 } from '@/components/ui/sidebar';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase-client';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+
 
 const menuItems = [
   {href: '/', label: 'Explorer', icon: LayoutGrid},
@@ -29,11 +34,36 @@ const menuItems = [
 
 export function AppLayout({children}: {children: ReactNode}) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const supabase = createClient()
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+    fetchUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [supabase.auth])
 
   const currentPage =
     menuItems.find(item => pathname.startsWith(item.href) && item.href !== '/') ||
     menuItems.find(item => item.href === pathname) ||
     (pathname.startsWith('/profile') ? { label: 'Profile' } : { label: 'Explorer' });
+  
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
+    router.refresh();
+  }
 
 
   return (
@@ -97,10 +127,19 @@ export function AppLayout({children}: {children: ReactNode}) {
             {currentPage.label}
           </h2>
           <div className="flex items-center gap-4">
-            <Button>
-              <Wallet className="mr-2 h-4 w-4" />
-              Connect Wallet
-            </Button>
+            {user ? (
+               <Button onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <Button asChild>
+                <Link href="/login">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Link>
+              </Button>
+            )}
             <Link href="/profile">
               <Avatar>
                 <AvatarImage
@@ -108,7 +147,9 @@ export function AppLayout({children}: {children: ReactNode}) {
                   alt="User Avatar"
                   data-ai-hint="avatar abstract"
                 />
-                <AvatarFallback>TZ</AvatarFallback>
+                <AvatarFallback>
+                  {user ? user.email?.substring(0, 2).toUpperCase() : 'TZ'}
+                </AvatarFallback>
               </Avatar>
             </Link>
           </div>

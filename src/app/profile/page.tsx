@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image';
 import {NftCard} from '@/components/nft-card';
 import {Card, CardContent, CardHeader} from '@/components/ui/card';
@@ -5,6 +6,11 @@ import {Separator} from '@/components/ui/separator';
 import {Button} from '@/components/ui/button';
 import {Settings, Share2} from 'lucide-react';
 import {Badge} from '@/components/ui/badge';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase-client';
+import type { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+
 
 const userNfts = [
   {
@@ -42,6 +48,30 @@ const userNfts = [
 ];
 
 export default function ProfilePage() {
+  const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient();
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUser(user);
+      } else {
+        router.push('/login');
+      }
+    };
+    fetchUser();
+  }, [supabase, router]);
+
+  if (!user) {
+    return <div className="flex justify-center items-center h-[80vh]">Loading...</div>;
+  }
+
+  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+  const userEmail = user.email || 'No email provided';
+
+
   return (
     <div className="space-y-8">
       <Card className="bg-card overflow-hidden">
@@ -66,8 +96,8 @@ export default function ProfilePage() {
               />
             </div>
             <div className="flex-grow pb-2">
-              <h2 className="text-3xl font-bold font-headline">PixelPioneer</h2>
-              <p className="text-muted-foreground">0x1234...5678</p>
+              <h2 className="text-3xl font-bold font-headline">{userName}</h2>
+              <p className="text-muted-foreground">{userEmail}</p>
             </div>
             <div className="flex gap-2 pb-2">
               <Button variant="outline" size="icon">
