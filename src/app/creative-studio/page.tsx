@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Image from 'next/image';
-import { Wand2, Loader2, Sparkles, Image as ImageIcon, UploadCloud } from 'lucide-react';
+import { Wand2, Loader2, Sparkles, Image as ImageIcon, UploadCloud, Download } from 'lucide-react';
 
 import {
   generateImage,
@@ -197,13 +197,21 @@ export default function CreativeStudioPage() {
                 <p>Our AI is bringing your prompt to life.</p>
                 </div>
             ) : result ? (
-                <div className="relative w-full aspect-square">
-                    <Image
-                    src={result.imageUrl}
-                    alt="Generated image"
-                    fill
-                    className="object-contain rounded-md"
-                    />
+                <div className="w-full flex flex-col gap-4 items-center">
+                    <div className="relative w-full aspect-square">
+                        <Image
+                        src={result.imageUrl}
+                        alt="Generated image"
+                        fill
+                        className="object-contain rounded-md"
+                        />
+                    </div>
+                     <Button asChild size="lg">
+                        <a href={result.imageUrl} download="generated-image.png">
+                            <Download className="mr-2 h-4 w-4" />
+                            Download Image
+                        </a>
+                    </Button>
                 </div>
             ) : (
                 <div className="text-center space-y-4 text-muted-foreground">
