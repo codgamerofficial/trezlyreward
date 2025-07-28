@@ -4,7 +4,7 @@
 import type {ReactNode} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {LayoutGrid, Trophy, Sparkles, User, PiggyBank, BarChart3, LogOut, LogIn, CandlestickChart} from 'lucide-react';
+import {LayoutGrid, Trophy, Sparkles, User, PiggyBank, BarChart3, LogOut, LogIn, CandlestickChart, Gift} from 'lucide-react';
 
 import {
   SidebarProvider,
@@ -35,6 +35,7 @@ const menuItems = [
   {href: '/trading', label: 'Trading', icon: CandlestickChart},
   {href: '/ai-namer', label: 'AI Namer', icon: Sparkles},
   {href: '/creative-studio', label: 'Creative Studio', icon: Sparkles},
+  {href: '/refer-and-earn', label: 'Refer & Earn', icon: Gift},
 ];
 
 export function AppLayout({children}: {children: ReactNode}) {
@@ -64,7 +65,9 @@ export function AppLayout({children}: {children: ReactNode}) {
   const currentPage =
     menuItems.find(item => pathname.startsWith(item.href) && item.href !== '/') ||
     menuItems.find(item => item.href === pathname) ||
-    (pathname.startsWith('/profile') ? { label: 'Profile' } : { label: 'Explorer' });
+    (pathname.startsWith('/profile') ? { label: 'Profile' } : 
+    (pathname.startsWith('/settings') ? { label: 'Settings' } : 
+    (pathname.startsWith('/refer-and-earn') ? { label: 'Refer & Earn' } : { label: 'Explorer' })));
   
   const handleLogout = async () => {
     await supabase.auth.signOut();
