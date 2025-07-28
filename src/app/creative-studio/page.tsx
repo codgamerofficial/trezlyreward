@@ -189,7 +189,7 @@ export default function CreativeStudioPage() {
         </div>
         
         <div className="lg:col-span-2">
-            <Card className="bg-card flex flex-col min-h-[500px] items-center justify-center sticky top-20">
+            <Card className="bg-card flex flex-col min-h-[500px] items-center justify-center sticky top-20 p-4">
             {isLoading ? (
                 <div className="text-center space-y-4 text-muted-foreground">
                 <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
@@ -197,12 +197,12 @@ export default function CreativeStudioPage() {
                 <p>Our AI is bringing your prompt to life.</p>
                 </div>
             ) : result ? (
-                <div className="relative w-full h-full">
+                <div className="relative w-full aspect-square">
                     <Image
                     src={result.imageUrl}
                     alt="Generated image"
                     fill
-                    className="object-contain rounded-md p-4"
+                    className="object-contain rounded-md"
                     />
                 </div>
             ) : (
