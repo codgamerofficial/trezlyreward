@@ -21,9 +21,18 @@ const generateImageFlow = ai.defineFlow(
     outputSchema: GenerateImageOutputSchema,
   },
   async (input) => {
+    let prompt: any = `Generate an image of the following prompt in a ${input.style} style: ${input.prompt}`;
+
+    if (input.photoDataUri) {
+      prompt = [
+        { media: { url: input.photoDataUri } },
+        { text: `Generate an image of the provided subject, but in a ${input.style} style. Also consider the following prompt: ${input.prompt}` },
+      ];
+    }
+    
     const { media } = await ai.generate({
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: `Generate an image of the following prompt in a ${input.style} style: ${input.prompt}`,
+      prompt: prompt,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],
       },

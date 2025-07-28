@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Type definitions for the image generator flow.
  *
@@ -11,6 +12,9 @@ import { z } from 'zod';
 export const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The text prompt to generate an image from.'),
   style: z.string().describe('The artistic style for the image (e.g., Ghibli, Anime, Realistic).'),
+  photoDataUri: z.string().optional().describe(
+    "An optional reference photo as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+  ),
 });
 export type GenerateImageInput = z.infer<typeof GenerateImageInputSchema>;
 
