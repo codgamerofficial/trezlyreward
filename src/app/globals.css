@@ -4,47 +4,47 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 240 20% 98%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 260 80% 70%;
-    --primary-foreground: 260 85% 10%;
+    --primary: 280 90% 65%;
+    --primary-foreground: 280 95% 10%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 330 90% 65%;
-    --accent-foreground: 330 95% 10%;
+    --accent: 190 95% 55%;
+    --accent-foreground: 190 95% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 260 80% 75%;
+    --ring: 280 90% 70%;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 270 15% 5%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 270 15% 8%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 270 15% 5%;
     --popover-foreground: 0 0% 98%;
-    --primary: 260 80% 70%;
-    --primary-foreground: 260 85% 10%;
-    --secondary: 240 3.7% 15.9%;
+    --primary: 280 90% 65%;
+    --primary-foreground: 280 95% 10%;
+    --secondary: 270 10% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
+    --muted: 270 10% 12%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 330 90% 65%;
-    --accent-foreground: 330 95% 10%;
+    --accent: 190 95% 55%;
+    --accent-foreground: 190 95% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 260 80% 75%;
+    --border: 270 10% 15%;
+    --input: 270 10% 15%;
+    --ring: 280 90% 70%;
   }
 }
 
@@ -54,7 +54,7 @@
   }
   body {
     @apply text-foreground;
-    background: linear-gradient(-45deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.1), hsl(var(--background)), hsl(var(--secondary)));
+    background: linear-gradient(-45deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.15), hsl(var(--background)), hsl(var(--background)));
     background-size: 400% 400%;
     @apply animate-gradient-bg;
   }

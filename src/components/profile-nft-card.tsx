@@ -39,14 +39,14 @@ export function ProfileNftCard({
   };
 
   return (
-    <Card className="group overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/30 bg-card">
+    <Card className="group overflow-hidden border-2 border-transparent hover:border-accent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent/40 bg-card">
       <CardHeader className="p-0">
         <div className="relative aspect-square">
           <Image
             src={imageUrl}
             alt={name}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             data-ai-hint={aiHint}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -55,7 +55,7 @@ export function ProfileNftCard({
       <CardContent className="p-4 space-y-2">
         <div className="font-headline text-lg font-semibold truncate">{name}</div>
         <p className="text-sm text-muted-foreground">by {creator}</p>
-        <p className="text-lg font-bold text-accent">{price}</p>
+        <p className="text-lg font-bold text-primary">{price}</p>
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <Button variant="secondary" className="w-full" onClick={handleSell}>Sell Now</Button>

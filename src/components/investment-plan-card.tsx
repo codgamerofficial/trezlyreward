@@ -60,7 +60,7 @@ export function InvestmentPlanCard(plan: InvestmentPlan) {
           address: "Treazly Corporate Office"
       },
       theme: {
-          color: "#4ade80" // Green color from new theme
+          color: "#A755F7"
       }
     };
 
