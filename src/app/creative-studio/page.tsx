@@ -10,9 +10,8 @@ import { Wand2, Loader2, Sparkles, Image as ImageIcon } from 'lucide-react';
 
 import {
   generateImage,
-  type GenerateImageOutput,
-  GenerateImageInputSchema,
 } from '@/ai/flows/image-generator';
+import { type GenerateImageOutput, GenerateImageInputSchema } from '@/ai/flows/image-generator-types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
