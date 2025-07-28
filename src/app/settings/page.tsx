@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,20 +21,61 @@ export default function SettingsPage() {
   const { toast } = useToast();
   const supabase = createClient();
   const router = useRouter();
+
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [bannerPreview, setBannerPreview] = useState<string | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const bannerInputRef = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
     const fetchUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
             router.push('/login');
+            return;
         }
         setUser(user);
+        
+        const storedAvatar = localStorage.getItem('userAvatar');
+        if (storedAvatar) setAvatarPreview(storedAvatar);
+
+        const storedBanner = localStorage.getItem('userBanner');
+        if (storedBanner) setBannerPreview(storedBanner);
     };
     fetchUser();
     
     const darkMode = document.documentElement.classList.contains('dark');
     setIsDarkMode(darkMode);
   }, [router, supabase]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'banner') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (type === 'avatar') {
+          setAvatarPreview(reader.result as string);
+        } else {
+          setBannerPreview(reader.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageSave = () => {
+    if (avatarPreview) {
+      localStorage.setItem('userAvatar', avatarPreview);
+    }
+    if (bannerPreview) {
+      localStorage.setItem('userBanner', bannerPreview);
+    }
+    toast({
+        title: 'Profile Updated',
+        description: 'Your new images have been saved.',
+    });
+    router.refresh();
+  }
 
   const handleThemeChange = (checked: boolean) => {
     setIsDarkMode(checked);
@@ -57,12 +99,15 @@ export default function SettingsPage() {
     localStorage.removeItem('virtualCashBalance');
     localStorage.removeItem('virtualPortfolio');
     localStorage.removeItem('reminders');
+    localStorage.removeItem('userAvatar');
+    localStorage.removeItem('userBanner');
     toast({
         title: 'Local Data Cleared',
         description: 'All your locally stored data has been wiped.',
     });
-    // Optionally, redirect or refresh
     router.refresh();
+    setAvatarPreview(null);
+    setBannerPreview(null);
   };
 
   if (!user) {
@@ -100,6 +145,64 @@ export default function SettingsPage() {
           <Button>Save Changes</Button>
         </CardFooter>
       </Card>
+
+       <Card>
+        <CardHeader>
+          <CardTitle>Customize Profile</CardTitle>
+          <CardDescription>Change your profile picture and banner.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label>Profile Picture</Label>
+            <div className="flex items-center gap-4">
+              <div className="relative w-20 h-20 rounded-full bg-muted">
+                <Image
+                  src={avatarPreview || "https://placehold.co/200x200.png"}
+                  alt="Avatar Preview"
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
+              <Button variant="outline" onClick={() => avatarInputRef.current?.click()}>
+                Upload Image
+              </Button>
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleFileChange(e, 'avatar')}
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Profile Banner</Label>
+             <div className="flex items-center gap-4">
+                <div className="relative w-48 h-20 rounded-md bg-muted">
+                     <Image
+                      src={bannerPreview || "https://placehold.co/1200x400.png"}
+                      alt="Banner Preview"
+                      fill
+                      className="rounded-md object-cover"
+                    />
+                </div>
+                 <Button variant="outline" onClick={() => bannerInputRef.current?.click()}>
+                    Upload Image
+                </Button>
+                <input
+                    ref={bannerInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => handleFileChange(e, 'banner')}
+                />
+             </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+            <Button onClick={handleImageSave}>Save Images</Button>
+        </CardFooter>
+      </Card>
       
       <Card>
         <CardHeader>
@@ -133,7 +236,7 @@ export default function SettingsPage() {
             <Label htmlFor="clear-data" className="flex flex-col space-y-1">
               <span>Clear Local Data</span>
               <span className="font-normal leading-snug text-muted-foreground">
-                This will reset your virtual portfolio, investments, and reminders. This action cannot be undone.
+                This will reset your virtual portfolio, investments, and calendar reminders. This action cannot be undone.
               </span>
             </Label>
              <AlertDialog>

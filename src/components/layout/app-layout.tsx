@@ -42,6 +42,7 @@ export function AppLayout({children}: {children: ReactNode}) {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("https://placehold.co/100x100.png");
   const [isClient, setIsClient] = useState(false);
   const supabase = createClient()
 
@@ -50,17 +51,28 @@ export function AppLayout({children}: {children: ReactNode}) {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
+       if (user) {
+        const storedAvatar = localStorage.getItem('userAvatar');
+        if (storedAvatar) setAvatarUrl(storedAvatar);
+      }
     }
     fetchUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null)
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+       if (currentUser) {
+        const storedAvatar = localStorage.getItem('userAvatar');
+        if (storedAvatar) setAvatarUrl(storedAvatar);
+      } else {
+        setAvatarUrl("https://placehold.co/100x100.png");
+      }
     })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [supabase.auth])
+  }, [supabase.auth, pathname])
 
   const currentPage =
     menuItems.find(item => pathname.startsWith(item.href) && item.href !== '/') ||
@@ -170,7 +182,7 @@ export function AppLayout({children}: {children: ReactNode}) {
             <Link href="/profile">
               <Avatar>
                 <AvatarImage
-                  src="https://placehold.co/100x100.png"
+                  src={avatarUrl}
                   alt="User Avatar"
                   data-ai-hint="avatar abstract"
                 />

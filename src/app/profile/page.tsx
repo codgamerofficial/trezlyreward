@@ -44,6 +44,8 @@ const initialUserNfts = [
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [userNfts, setUserNfts] = useState<Nft[]>([]);
+  const [avatarUrl, setAvatarUrl] = useState("https://placehold.co/200x200.png");
+  const [bannerUrl, setBannerUrl] = useState("https://placehold.co/1200x400.png");
   const supabase = createClient();
   const router = useRouter();
 
@@ -59,6 +61,13 @@ export default function ProfilePage() {
         } else {
             setUserNfts(storedNfts);
         }
+
+        const storedAvatar = localStorage.getItem('userAvatar');
+        if (storedAvatar) setAvatarUrl(storedAvatar);
+
+        const storedBanner = localStorage.getItem('userBanner');
+        if (storedBanner) setBannerUrl(storedBanner);
+
       } else {
         router.push('/login');
       }
@@ -94,7 +103,7 @@ export default function ProfilePage() {
       <Card className="bg-card overflow-hidden">
         <CardHeader className="p-0 relative h-36 md:h-48">
           <Image
-            src="https://placehold.co/1200x400.png"
+            src={bannerUrl}
             alt="Banner"
             fill
             className="object-cover"
@@ -105,7 +114,7 @@ export default function ProfilePage() {
           <div className="flex items-end gap-4">
             <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background">
               <Image
-                src="https://placehold.co/200x200.png"
+                src={avatarUrl}
                 alt="User Avatar"
                 fill
                 className="rounded-full object-cover"
